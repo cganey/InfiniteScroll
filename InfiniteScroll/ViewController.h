@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "InfiniteScrollView.h"
 
-@interface ViewController : UIViewController <UIScrollViewDelegate>
+@interface ViewController : UIViewController <UIScrollViewDelegate, InfiniteScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet InfiniteScrollView *announcementsScrollView;
 

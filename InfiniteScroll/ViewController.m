@@ -16,6 +16,7 @@
     NSMutableArray *viewsArray;
     NSMutableArray *announcementsArray;
     NSInteger currentItemIndex;
+    NSInteger itemCount;
 }
 
 
@@ -23,14 +24,10 @@
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    
-    self.announcementsScrollView.delegate = self;
-    
-    viewsArray = [NSMutableArray new];
-    currentItemIndex = 0;
-    
     NSDictionary *page1 = @{@"name":@"Luis",@"lastName":@"Perez"};
     NSDictionary *page2 = @{@"name":@"Arturo",@"lastName":@"Ramirez"};
     NSDictionary *page3 = @{@"name":@"Andrés",@"lastName":@"Sánchez"};
@@ -52,118 +49,50 @@
     [announcementsArray addObject:page8];
     [announcementsArray addObject:page9];
     
-    self.announcementsScrollView.pagingEnabled = YES;
-    
-
-    view1 = [[PropertyView alloc] initWithXibName:@"PropertyView"];
-    [view1 setName:[page9 objectForKey:@"name"] lastName:[page9 objectForKey:@"lastName"]];
-    [self.announcementsScrollView addSubview:view1];
-    [viewsArray addObject:view1];
-    
-    
-    view2 = [[PropertyView alloc] initWithXibName:@"PropertyView"];
-    [self.announcementsScrollView addSubview:view2];
-    [view2 setName:[page1 objectForKey:@"name"] lastName:[page1 objectForKey:@"lastName"]];
-     [viewsArray addObject:view2];
-    
-    
-    view3 = [[PropertyView alloc] initWithXibName:@"PropertyView"];
-    [self.announcementsScrollView addSubview:view3];
-    [view3 setName:[page2 objectForKey:@"name"] lastName:[page2 objectForKey:@"lastName"]];
-    [viewsArray addObject:view3];
+    self.announcementsScrollView.delegateISV = self;
     
 }
 
-- (void)viewDidLayoutSubviews {
-    CGSize scrollViewSize = self.announcementsScrollView.frame.size;
-    self.announcementsScrollView.contentSize = CGSizeMake((scrollViewSize.width*3), self.announcementsScrollView.contentSize.height);
-    
-    [[viewsArray objectAtIndex:0] setFrame:CGRectMake(0, 0, scrollViewSize.width, scrollViewSize.height)];
-    [[viewsArray objectAtIndex:1] setFrame:CGRectMake(scrollViewSize.width, 0, scrollViewSize.width, scrollViewSize.height)];
-    [[viewsArray objectAtIndex:2] setFrame:CGRectMake(scrollViewSize.width*2, 0, scrollViewSize.width, scrollViewSize.height)];
-    self.announcementsScrollView.contentOffset = CGPointMake(scrollViewSize.width, 0);
+- (void) viewDidLayoutSubviews {
+    [self.announcementsScrollView updateLayoutFrames];
     
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+#pragma mark - InfiniteScrollView Delegate
+
+- (NSInteger) numberOfElementsInInfiniteScrollView {
+    return announcementsArray.count;
+}
+
+- (void)infiniteScrollView:(InfiniteScrollView *)infiniteScrollView updateView:(id)view forIndex:(NSInteger)index {
+    PropertyView *propertyView = (PropertyView *)view;
+    NSDictionary *page = [announcementsArray objectAtIndex:index];
+    [propertyView setName:[page objectForKey:@"name"] lastName:[page objectForKey:@"lastName"]];
     
-    CGSize scrollViewSize = self.announcementsScrollView.frame.size;
+}
+
+
+
+- (UIView *)infiniteScrollView:(InfiniteScrollView *)infiniteScrollView withInitialViewPosition:(InfiniteScrollViewViewPosition)viewPosition {
     
-    if (scrollView.contentOffset.x >= scrollViewSize.width*2) {
-        
-        if (currentItemIndex >= announcementsArray.count-1) {
-            currentItemIndex = 0;
-        }
-        else {
-            currentItemIndex++;
-        }
-        
-        self.announcementsScrollView.contentOffset = CGPointMake(scrollViewSize.width, 0);
-        
-        NSLog(@"CURRENT INDEX: %i",(int)currentItemIndex);
-        [[viewsArray objectAtIndex:0] setFrame:CGRectMake(scrollViewSize.width*2, 0, scrollViewSize.width, scrollViewSize.height)];
-        [[viewsArray objectAtIndex:1] setFrame:CGRectMake(0, 0, scrollViewSize.width, scrollViewSize.height)];
-        [[viewsArray objectAtIndex:2] setFrame:CGRectMake(scrollViewSize.width, 0, scrollViewSize.width, scrollViewSize.height)];
-        
-        PropertyView *tempView = [viewsArray objectAtIndex:0];
-        [viewsArray replaceObjectAtIndex:0 withObject:[viewsArray objectAtIndex:1]];
-        [viewsArray replaceObjectAtIndex:1 withObject:[viewsArray objectAtIndex:2]];
-        [viewsArray replaceObjectAtIndex:2 withObject:tempView];
-        
-        
-        if (currentItemIndex == announcementsArray.count-1) {
-            NSDictionary *page = [announcementsArray firstObject];
-            [tempView setName:[page objectForKey:@"name"] lastName:[page objectForKey:@"lastName"]];
-        }
-        else {
-            NSDictionary *page = [announcementsArray objectAtIndex:currentItemIndex+1];
-            [tempView setName:[page objectForKey:@"name"] lastName:[page objectForKey:@"lastName"]];
-        }
-        
-        
-        
-        
-        NSLog(@"current offset: %f",self.announcementsScrollView.contentOffset.x);
-       
+    switch (viewPosition) {
+        case InfiniteScrollViewViewPositionHiddenLeft:
+            return [[PropertyView alloc] initWithXibName:@"PropertyView"];
+            break;
+        case InfiniteScrollViewViewPositionVisible:
+            return [[PropertyView alloc] initWithXibName:@"PropertyView"];
+            break;
+        case InfiniteScrollViewViewPositionHiddenRight:
+            return [[PropertyView alloc] initWithXibName:@"PropertyView"];
+            break;
+            
+        default:
+            break;
     }
-    else if (scrollView.contentOffset.x <= 0) {
-        if (currentItemIndex <= 0) {
-            currentItemIndex = announcementsArray.count-1;
-        }
-        else {
-         currentItemIndex--;
-        }
-        
-        self.announcementsScrollView.contentOffset = CGPointMake(scrollViewSize.width, 0);
-        
-        
-        NSLog(@"CURRENT INDEX: %i",(int)currentItemIndex);
-        [[viewsArray objectAtIndex:2] setFrame:CGRectMake(0, 0, scrollViewSize.width, scrollViewSize.height)];
-        [[viewsArray objectAtIndex:0] setFrame:CGRectMake(scrollViewSize.width, 0, scrollViewSize.width, scrollViewSize.height)];
-        [[viewsArray objectAtIndex:1] setFrame:CGRectMake(scrollViewSize.width*2, 0, scrollViewSize.width, scrollViewSize.height)];
-        
-        PropertyView *tempView = [viewsArray objectAtIndex:2];
-        [viewsArray replaceObjectAtIndex:2 withObject:[viewsArray objectAtIndex:1]];
-        [viewsArray replaceObjectAtIndex:1 withObject:[viewsArray objectAtIndex:0]];
-        [viewsArray replaceObjectAtIndex:0 withObject:tempView];
-        
-        if (currentItemIndex == 0) {
-            NSDictionary *page = [announcementsArray lastObject];
-            [tempView setName:[page objectForKey:@"name"] lastName:[page objectForKey:@"lastName"]];
-        }
-        else {
-            NSDictionary *page = [announcementsArray objectAtIndex:currentItemIndex-1];
-            [tempView setName:[page objectForKey:@"name"] lastName:[page objectForKey:@"lastName"]];
-        }
-        
-        
-
     
-    }
 }
-
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -172,3 +101,6 @@
 }
 
 @end
+
+
+

@@ -8,10 +8,33 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSInteger {
+    InfiniteScrollViewViewPositionHiddenLeft = 0,
+    InfiniteScrollViewViewPositionVisible = 1,
+    InfiniteScrollViewViewPositionHiddenRight = 2
+} InfiniteScrollViewViewPosition;
+
+
 @class InfiniteScrollView;
 
 
-@interface InfiniteScrollView : UIScrollView
+@protocol InfiniteScrollViewDelegate <NSObject>
+- (NSInteger) numberOfElementsInInfiniteScrollView;
+- (UIView *) infiniteScrollView :(InfiniteScrollView *)infiniteScrollView withInitialViewPosition:(InfiniteScrollViewViewPosition)viewPosition;
+- (void) infiniteScrollView :(InfiniteScrollView *)infiniteScrollView updateView:(id )view forIndex:(NSInteger)index;
+@end
 
+
+@interface InfiniteScrollView : UIScrollView <UIScrollViewDelegate>
+
+@property (nonatomic, strong) id <InfiniteScrollViewDelegate> delegateISV;
+@property (nonatomic, strong) UIView *view1;
+@property (nonatomic, strong) UIView *view2;
+@property (nonatomic, strong) UIView *view3;
+@property (nonatomic, strong) NSMutableArray *viewsArray;
+@property (nonatomic) NSInteger numberOfElements;
+
+- (void) updateLayoutFrames;
 
 @end
+
