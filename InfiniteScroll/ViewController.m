@@ -8,15 +8,10 @@
 
 #import "ViewController.h"
 #import "PropertyView.h"
+#import "AnnouncementView.h"
 
 @interface ViewController () {
-    PropertyView *view1;
-    PropertyView *view2;
-    PropertyView *view3;
-    NSMutableArray *viewsArray;
     NSMutableArray *announcementsArray;
-    NSInteger currentItemIndex;
-    NSInteger itemCount;
 }
 
 
@@ -28,15 +23,17 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    NSDictionary *page1 = @{@"name":@"Luis",@"lastName":@"Perez"};
-    NSDictionary *page2 = @{@"name":@"Arturo",@"lastName":@"Ramirez"};
-    NSDictionary *page3 = @{@"name":@"Andrés",@"lastName":@"Sánchez"};
-    NSDictionary *page4 = @{@"name":@"Carlos",@"lastName":@"Flores"};
-    NSDictionary *page5 = @{@"name":@"Juan",@"lastName":@"Bravo"};
-    NSDictionary *page6 = @{@"name":@"José",@"lastName":@"Granados"};
-    NSDictionary *page7 = @{@"name":@"Erik",@"lastName":@"Vargas"};
-    NSDictionary *page8 = @{@"name":@"Jan",@"lastName":@"Herrera"};
-    NSDictionary *page9 = @{@"name":@"Ricardo",@"lastName":@"Rojas"};
+    NSDictionary *page1 = @{@"title":@"Proyecto Luis 1",@"price":@"240,000",@"announcementType":@"2"};
+    NSDictionary *page2 = @{@"title":@"Proyecto Arturo 2",@"price":@"330,000",@"announcementType":@"2"};
+    NSDictionary *page3 = @{@"title":@"Proyecto Andrés 3",@"price":@"190,000",@"announcementType":@"2"};
+    NSDictionary *page4 = @{@"title":@"Proyecto Carlos 4",@"price":@"475,000",@"announcementType":@"2"};
+    NSDictionary *page5 = @{@"title":@"Aviso Juan 5",@"price":@"196,000",@"announcementType":@"1"};
+    NSDictionary *page6 = @{@"title":@"Aviso José 6",@"price":@"182,000",@"announcementType":@"1"};
+    NSDictionary *page7 = @{@"title":@"Proyecto Erik 7",@"price":@"604,000",@"announcementType":@"2"};
+    NSDictionary *page8 = @{@"title":@"Aviso Jan 8",@"price":@"733,000",@"announcementType":@"1"};
+    NSDictionary *page9 = @{@"title":@"Aviso Ricardo 9",@"price":@"255,000",@"announcementType":@"1"};
+    NSDictionary *page10 = @{@"title":@"Aviso Hola 10",@"price":@"255,000",@"announcementType":@"1"};
+    NSDictionary *page11 = @{@"title":@"Aviso Pulpin 11",@"price":@"255,000",@"announcementType":@"2"};
     
     announcementsArray = [NSMutableArray new];
     [announcementsArray addObject:page1];
@@ -48,14 +45,15 @@
     [announcementsArray addObject:page7];
     [announcementsArray addObject:page8];
     [announcementsArray addObject:page9];
+    [announcementsArray addObject:page10];
+    [announcementsArray addObject:page11];
+    
     
     self.announcementsScrollView.delegateISV = self;
-    
 }
 
 - (void) viewDidLayoutSubviews {
     [self.announcementsScrollView updateLayoutFrames];
-    
 }
 
 
@@ -66,33 +64,27 @@
     return announcementsArray.count;
 }
 
-- (void)infiniteScrollView:(InfiniteScrollView *)infiniteScrollView updateView:(id)view forIndex:(NSInteger)index {
-    PropertyView *propertyView = (PropertyView *)view;
-    NSDictionary *page = [announcementsArray objectAtIndex:index];
-    [propertyView setName:[page objectForKey:@"name"] lastName:[page objectForKey:@"lastName"]];
+- (UIView *)infiniteScrollView:(InfiniteScrollView *)infiniteScrollView forIndex:(NSInteger)index {
     
-}
-
-
-
-- (UIView *)infiniteScrollView:(InfiniteScrollView *)infiniteScrollView withInitialViewPosition:(InfiniteScrollViewViewPosition)viewPosition {
     
-    switch (viewPosition) {
-        case InfiniteScrollViewViewPositionHiddenLeft:
-            return [[PropertyView alloc] initWithXibName:@"PropertyView"];
-            break;
-        case InfiniteScrollViewViewPositionVisible:
-            return [[PropertyView alloc] initWithXibName:@"PropertyView"];
-            break;
-        case InfiniteScrollViewViewPositionHiddenRight:
-            return [[PropertyView alloc] initWithXibName:@"PropertyView"];
-            break;
-            
-        default:
-            break;
+    
+    NSDictionary *announcementDic = [announcementsArray objectAtIndex:index];
+    
+    if ([[announcementDic objectForKey:@"announcementType"] isEqualToString:@"1"]) {
+        AnnouncementView *announcementView = [[AnnouncementView alloc] initWithAnnouncementView:AnnouncementViewTagProperty];
+        [announcementView setName:[announcementDic objectForKey:@"title"] lastName:[announcementDic objectForKey:@"price"]];
+        return announcementView;
     }
-    
+    else {
+        AnnouncementView *announcementView = [[AnnouncementView alloc] initWithAnnouncementView:AnnouncementViewTagProject];
+        [announcementView setName:[announcementDic objectForKey:@"title"] lastName:[announcementDic objectForKey:@"price"]];
+        return announcementView;
+    }
+
 }
+
+
+
 
 
 - (void)didReceiveMemoryWarning {

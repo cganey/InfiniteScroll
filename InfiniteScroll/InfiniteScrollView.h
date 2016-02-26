@@ -20,8 +20,7 @@ typedef enum : NSInteger {
 
 @protocol InfiniteScrollViewDelegate <NSObject>
 - (NSInteger) numberOfElementsInInfiniteScrollView;
-- (UIView *) infiniteScrollView :(InfiniteScrollView *)infiniteScrollView withInitialViewPosition:(InfiniteScrollViewViewPosition)viewPosition;
-- (void) infiniteScrollView :(InfiniteScrollView *)infiniteScrollView updateView:(id )view forIndex:(NSInteger)index;
+- (UIView *) infiniteScrollView :(InfiniteScrollView *)infiniteScrollView forIndex:(NSInteger)index;
 @end
 
 

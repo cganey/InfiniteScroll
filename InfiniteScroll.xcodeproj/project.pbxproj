@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F92447571C80C63E0087BC48 /* ProjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = F92447561C80C63E0087BC48 /* ProjectView.m */; };
+		F924475A1C80DBE10087BC48 /* AnnouncementView.m in Sources */ = {isa = PBXBuildFile; fileRef = F92447591C80DBE10087BC48 /* AnnouncementView.m */; };
 		F92A9E811C7CF16B00AFB9FB /* PropertyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F92A9E801C7CF16B00AFB9FB /* PropertyView.xib */; };
 		F98101691C7B6F9E0012A776 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F98101681C7B6F9E0012A776 /* main.m */; };
 		F981016C1C7B6F9E0012A776 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F981016B1C7B6F9E0012A776 /* AppDelegate.m */; };
@@ -19,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F92447551C80C63E0087BC48 /* ProjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectView.h; sourceTree = "<group>"; };
+		F92447561C80C63E0087BC48 /* ProjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectView.m; sourceTree = "<group>"; };
+		F92447581C80DBE10087BC48 /* AnnouncementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnouncementView.h; sourceTree = "<group>"; };
+		F92447591C80DBE10087BC48 /* AnnouncementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnouncementView.m; sourceTree = "<group>"; };
 		F92A9E801C7CF16B00AFB9FB /* PropertyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PropertyView.xib; sourceTree = "<group>"; };
 		F98101641C7B6F9E0012A776 /* InfiniteScroll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfiniteScroll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F98101681C7B6F9E0012A776 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -96,6 +102,10 @@
 				F98101821C7B9CFA0012A776 /* PropertyView.h */,
 				F98101831C7B9CFA0012A776 /* PropertyView.m */,
 				F92A9E801C7CF16B00AFB9FB /* PropertyView.xib */,
+				F92447551C80C63E0087BC48 /* ProjectView.h */,
+				F92447561C80C63E0087BC48 /* ProjectView.m */,
+				F92447581C80DBE10087BC48 /* AnnouncementView.h */,
+				F92447591C80DBE10087BC48 /* AnnouncementView.m */,
 			);
 			name = InfiniteScrollView;
 			sourceTree = "<group>";
@@ -173,6 +183,8 @@
 			files = (
 				F98101841C7B9CFA0012A776 /* PropertyView.m in Sources */,
 				F981016F1C7B6F9E0012A776 /* ViewController.m in Sources */,
+				F924475A1C80DBE10087BC48 /* AnnouncementView.m in Sources */,
+				F92447571C80C63E0087BC48 /* ProjectView.m in Sources */,
 				F981016C1C7B6F9E0012A776 /* AppDelegate.m in Sources */,
 				F98101691C7B6F9E0012A776 /* main.m in Sources */,
 				F98101811C7B707A0012A776 /* InfiniteScrollView.m in Sources */,
