@@ -76,7 +76,6 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    
     CGSize scrollViewSize = self.frame.size;
     
     if (scrollView.contentOffset.x >= scrollViewSize.width*2) {
