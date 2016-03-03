@@ -2,8 +2,8 @@
 //  InfiniteScrollView.swift
 //  InfiniteScroll
 //
-//  Created by Werik on 2/03/16.
-//  Copyright © 2016 InfiniteScroll. All rights reserved.
+//  Created by OrbisTeam on 2/03/16.
+//  Copyright © 2016 Orbis. All rights reserved.
 //
 
 import UIKit
@@ -14,12 +14,27 @@ enum InfiniteScrollViewViewPosition:Int {
     case InfiniteScrollViewViewPositionHiddenRight = 2
 }
 
+// MARK: - Protocol
+
 protocol InfiniteScrollViewDelegate: class {
+    
+    /**
+        Number of views in the scroll.
+        - returns: (Int) number of view to show in the scroll
+     */
     func numberOfElementsInInfiniteScrollView() -> Int
+    
+    /**
+        InfiniteScroll Component
+        - parameter infiniteScrollView: infiniteScrollView to implement
+        - parameter index: position of view
+     */
     func infiniteScrollView(infiniteScrollView:InfiniteScrollView, forIndex index:Int) -> UIView
 }
 
-class InfiniteScrollView: UIScrollView, UIScrollViewDelegate {
+class InfiniteScrollView: UIScrollView {
+    
+// MARK: - Properties
     weak var _delegateISV:InfiniteScrollViewDelegate?
     var view1:UIView!
     var view2:UIView!
@@ -27,13 +42,19 @@ class InfiniteScrollView: UIScrollView, UIScrollViewDelegate {
     var viewsArray:[UIView]!
     var numberOfElements:Int!
     var currentItemIndex:Int!
-    
+
+// MARK: - Int
+
     required init(coder : NSCoder) {
         super.init(coder: coder)!
         self.configScrollViewViews()
     }
 
-    
+// MARK: - Functions
+
+    /**
+        Apply the delegate and set the value default
+    */
     func configScrollViewViews() {
         self.delegate = self
         self.viewsArray = []
@@ -51,10 +72,9 @@ class InfiniteScrollView: UIScrollView, UIScrollViewDelegate {
         }
     }
     
-   
-    
-    
-    
+    /** 
+        Append the three main views for star
+     */
     func callFirstInitDelegateMethod() {
         self.numberOfElements = self.delegateISV!.numberOfElementsInInfiniteScrollView()
         
@@ -76,6 +96,9 @@ class InfiniteScrollView: UIScrollView, UIScrollViewDelegate {
         }
     }
     
+    /** 
+        
+     */
     func updateLayoutFrames() {
         let scrollViewSize = self.frame.size
         self.contentSize = CGSizeMake((scrollViewSize.width*3), self.contentSize.height)
@@ -86,6 +109,13 @@ class InfiniteScrollView: UIScrollView, UIScrollViewDelegate {
         self.contentOffset = CGPointMake(self.frame.size.width, 0)
     }
     
+
+}
+
+// MARK: - ScrollViewDelegate
+
+extension InfiniteScrollView: UIScrollViewDelegate {
+   
     func scrollViewDidScroll(scrollView:UIScrollView) {
         let scrollViewSize:CGSize = self.frame.size
         print("content offset \(scrollView.contentOffset.x)")
@@ -158,8 +188,7 @@ class InfiniteScrollView: UIScrollView, UIScrollViewDelegate {
             self.viewsArray[0] = tempView
         }
         
-
+        
     }
 
-    
 }
