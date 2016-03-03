@@ -36,7 +36,6 @@
 - (void)setDelegateISV:(id<InfiniteScrollViewDelegate>)delegateISV {
     _delegateISV = delegateISV;
     [self callFirstInitDelegateMethod];
-    
 }
 
 - (void) callFirstInitDelegateMethod {

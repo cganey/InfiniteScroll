@@ -9,17 +9,43 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var dummy:[AnyObject]!
+    @IBOutlet weak var infiniteScroll: InfiniteScrollView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.dummy = [UIColor.redColor(),UIColor.blackColor(),UIColor.blueColor(),UIColor.greenColor(),UIColor.yellowColor()]
+        self.infiniteScroll.delegateISV = self
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+    }
+    
+    override func viewDidLayoutSubviews() {
+        print("viewDidLayoutSubviews")
+        self.infiniteScroll.updateLayoutFrames()
     }
 
+
+}
+
+extension ViewController:InfiniteScrollViewDelegate {
+    
+    func numberOfElementsInInfiniteScrollView() -> Int {
+        return self.dummy.count
+    }
+    
+    func infiniteScrollView(infiniteScrollView: InfiniteScrollView, forIndex index: Int) -> UIView {
+        let uiView = UIView()
+        uiView.backgroundColor = self.dummy![index] as? UIColor
+        return uiView
+    }
+    
+    
 
 }
 
